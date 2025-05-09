@@ -10,10 +10,6 @@ export default function TextArea({ title, value, placeholder = "", type = "text"
         ]
     };
 
-    const change = (value) => {
-        console.log(value);
-    }
-
     return (
         <div className="flex flex-col md:flex-row md:w-150 lg:w-211 text-left md:items-center md:gap-4">
             <label htmlFor="price" className="w-40 md:w-24 text-sm text-left font-medium text-gray-900">
