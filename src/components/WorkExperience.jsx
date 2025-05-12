@@ -6,7 +6,7 @@ import { PencilIcon, ChevronDoubleUpIcon, ChevronDoubleDownIcon } from "@heroico
 
 const mandatoryFields = ['companyName','positionTitle','mainResp','dateFrom','dateUntil'];
 
-export default function WorkExperience({ exp, expChange = (()=>{}), expRemove = (()=>{}), expReplace=(()=>{}), editing = false, position = {first: false, last: false, moveUp: ()=>{}, moveDown: ()=>{}} }) {
+export default function WorkExperience({ exp, countNonPrintable, expChange = (()=>{}), expRemove = (()=>{}), expReplace=(()=>{}), editing = false, position = {first: false, last: false, moveUp: ()=>{}, moveDown: ()=>{}} }) {
     const [editMode, setEditMode] = useState(editing)
     const dateFrom = new Date(exp.dateFrom);
     const dateFromFormatted = dateFrom.toLocaleDateString('it-IT')
@@ -28,9 +28,9 @@ export default function WorkExperience({ exp, expChange = (()=>{}), expRemove = 
                 <Input title="Until" type="date" value={exp.dateUntil} onChange={(e)=>{expChange(exp.id,e.target.name,e.target.value)}} name="dateUntil" mandatory={mandatoryFields.indexOf("dateUntil") !== -1}></Input>
                 <TextArea title="Main responsibilities" value={exp.mainResp} onChange={(e)=>{expChange(exp.id,"mainResp",e)}} name="mainResp" mandatory={mandatoryFields.indexOf("mainResp") !== -1}></TextArea>
                 <div className="flex gap-4">
-                    <button onClick={()=>{if(validate(exp)){setEditMode(false); setInitialExp(exp); setNewWorkExperience(false);}}} className="!bg-sky-500 hover:!bg-sky-800 !text-white">{newWorkExperience? "Insert" : "Save"}</button>
-                    <button onClick={()=>{expRemove()}} className={newWorkExperience ? "" : "!bg-red-700 hover:!bg-red-800 !text-white"}>{newWorkExperience? "Cancel" : "Delete"}</button>
-                    {!newWorkExperience && <button onClick={()=>{expReplace(exp.id,initialExp);setEditMode(false)}} >Cancel</button> }
+                    <button onClick={()=>{if(validate(exp)){setEditMode(false); setInitialExp(exp); setNewWorkExperience(false); countNonPrintable(-1);}}} className="!bg-sky-500 hover:!bg-sky-800 !text-white">{newWorkExperience? "Insert" : "Save"}</button>
+                    <button onClick={()=>{expRemove(); countNonPrintable(-1);}} className={newWorkExperience ? "" : "!bg-red-700 hover:!bg-red-800 !text-white"}>{newWorkExperience? "Cancel" : "Delete"}</button>
+                    {!newWorkExperience && <button onClick={()=>{expReplace(exp.id,initialExp); setEditMode(false); countNonPrintable(-1);}} >Cancel</button> }
                 </div>
             </div>
         );
@@ -44,7 +44,7 @@ export default function WorkExperience({ exp, expChange = (()=>{}), expRemove = 
                     <strong className="font-extrabold text-2xl">{exp.positionTitle}</strong>
                     {!position.last && <ChevronDoubleDownIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Work:block" onClick={() => position.moveDown(exp.id)}/>}
                     {!position.first && <ChevronDoubleUpIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Work:block" onClick={() => position.moveUp(exp.id)}/>}
-                    <PencilIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Work:block" onClick={() => {setEditMode(true)}} />
+                    <PencilIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Work:block" onClick={() => {setEditMode(true); countNonPrintable(1);}} />
                 </p>
                 <p><em>{exp.companyName} - {dateFromFormatted.toString()} to {dateUntilFormatted.toString()}</em></p>
                 <p><span className="[&_strong]:!text-gray-800 [&_strong]:dark:!text-gray-100 [&_span]:!text-gray-800 [&_span]:dark:!text-gray-100" dangerouslySetInnerHTML={{ __html: safeMainResp }}></span></p>

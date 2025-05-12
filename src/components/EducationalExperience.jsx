@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 
 const mandatoryFields = ['schoolName','titleOfStudy','dateFrom','dateUntil'];
 
-export default function EducationalExperience({exp, expChange = (()=>{}), expRemove = (()=>{}), expReplace=(()=>{}), editing = false, position = {first: false, last: false, moveUp: ()=>{}, moveDown: ()=>{}}}) {
+export default function EducationalExperience({exp, countNonPrintable, expChange = (()=>{}), expRemove = (()=>{}), expReplace=(()=>{}), editing = false, position = {first: false, last: false, moveUp: ()=>{}, moveDown: ()=>{}}}) {
     const [editMode, setEditMode] = useState(editing)
     const dateFrom = new Date(exp.dateFrom);
     const dateFromFormatted = dateFrom.toLocaleDateString('it-IT')
@@ -26,9 +26,9 @@ export default function EducationalExperience({exp, expChange = (()=>{}), expRem
                 <Input title="Until" type="date" value={exp.dateUntil} onChange={(e)=>{expChange(exp.id,e.target.name, e.target.value)}} name="dateUntil" mandatory={mandatoryFields.indexOf("dateUntil") !== -1}></Input>
                 <Input title="Grade" value={exp.grade} onChange={(e)=>{expChange(exp.id,e.target.name, e.target.value)}}  name="grade" mandatory={mandatoryFields.indexOf("grade") !== -1}></Input>
                 <div className="flex gap-4">
-                    <button onClick={()=>{if(validate(exp)){setEditMode(false); setInitialExp(exp); setNewEdExperience(false);}}} className="!bg-sky-500 hover:!bg-sky-800 !text-white">{newEdExperience? "Insert" : "Save"}</button>
-                    <button onClick={()=>{expRemove()}} className={newEdExperience ? "" : "!bg-red-700 hover:!bg-red-800 !text-white"}>{newEdExperience? "Cancel" : "Delete"}</button>
-                    {!newEdExperience && <button onClick={()=>{expReplace(exp.id,initialExp);setEditMode(false)}} >Cancel</button> }
+                    <button onClick={()=>{if(validate(exp)){setEditMode(false); setInitialExp(exp); setNewEdExperience(false); countNonPrintable(-1);}}} className="!bg-sky-500 hover:!bg-sky-800 !text-white">{newEdExperience? "Insert" : "Save"}</button>
+                    <button onClick={()=>{expRemove(); countNonPrintable(-1);}} className={newEdExperience ? "" : "!bg-red-700 hover:!bg-red-800 !text-white"}>{newEdExperience? "Cancel" : "Delete"}</button>
+                    {!newEdExperience && <button onClick={()=>{expReplace(exp.id,initialExp); setEditMode(false); countNonPrintable(-1);}} >Cancel</button> }
                 </div>
             </div>
         );
@@ -41,7 +41,7 @@ export default function EducationalExperience({exp, expChange = (()=>{}), expRem
                     <strong className="font-extrabold text-xl">{exp.titleOfStudy}</strong>
                     {!position.last && <ChevronDoubleDownIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" onClick={() => position.moveDown(exp.id)}/>}
                     {!position.first && <ChevronDoubleUpIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" onClick={() => position.moveUp(exp.id)}/>}
-                    <PencilIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" onClick={()=>{setEditMode(true)}}/>
+                    <PencilIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" onClick={()=>{setEditMode(true); countNonPrintable(1);}}/>
                 </p>
                 <p>{exp.schoolName} - {dateFromFormatted.toString()} to {dateUntilFormatted.toString()}</p>
                 { exp.grade !== "" && <p><strong>Grade: </strong> {exp.grade}</p> }
