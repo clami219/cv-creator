@@ -4,7 +4,7 @@ import Input from './Input';
 import Container from './Container';
 import { PencilIcon } from "@heroicons/react/24/outline";
 
-export default function GeneralInformation() {
+export default function GeneralInformation({enablePrinting}) {
     const [data,setData] = useLocalStorageState("generalInfo",{defaultValue:{name:'',surname:'',email:'',phone:'',linkedin:''}});
     const [editMode,setEditMode] = useState(data.name === '' && data.surname === '');
 
@@ -58,7 +58,7 @@ export default function GeneralInformation() {
                 />
             </div>
             <div className="flex gap-4">
-                <button className="!bg-sky-500 hover:!bg-sky-800 !text-white" onClick={()=>{setInitialData(data);setEditMode(false);}}>Save</button>
+                <button className="!bg-sky-500 hover:!bg-sky-800 !text-white" onClick={()=>{setInitialData(data);enablePrinting();setEditMode(false);}}>Save</button>
                 <button onClick={()=>{setData(initialData);setEditMode(false)}} >Cancel</button>
             </div>
         </Container>
