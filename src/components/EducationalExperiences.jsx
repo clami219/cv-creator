@@ -4,7 +4,7 @@ import Container from './Container';
 import EducationalExperience from './EducationalExperience';
 
 export default function EducationalExperiences() {
-    const [exps, setExps] = useLocalStorageState('edExps',{defaultValue:[createEdExp('Politecnico di Milano', 'Master degree in Computer Engineering', '2005-09-01', '2011-03-30')]});
+    const [exps, setExps] = useLocalStorageState('edExps',{defaultValue:[]});
     const [insertVisible, setInsertVisible] = useState(exps.find((exp) => exp.dateFrom === "" ));
     
     function changeExperience(id, field, newValue)
