@@ -11,7 +11,6 @@ function App() {
   function changeNonPrintableCount(value)
   {
     setHinderingPrint(hinderingPrint + parseInt(value));
-    console.log(hinderingPrint + parseInt(value));
   }
 
   return (

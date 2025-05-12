@@ -4,6 +4,8 @@ import Input from './Input';
 import Container from './Container';
 import { PencilIcon } from "@heroicons/react/24/outline";
 
+const mandatoryFields = ["name","surname","email","phone"];
+
 export default function GeneralInformation({countNonPrintable}) {
     const [data,setData] = useLocalStorageState("generalInfo",{defaultValue:{name:'',surname:'',email:'',phone:'',linkedin:''}});
     const [editMode,setEditMode] = useState(data.name === '' && data.surname === '');
@@ -16,6 +18,26 @@ export default function GeneralInformation({countNonPrintable}) {
         const updatedData = {...data,[e.target.name]:e.target.value}
         setData(updatedData);
     }   
+
+    function validate()
+    {
+        let feedback = true;
+        let feedback_message = "";
+
+        //Checking phone format
+        if (!data.phone.match(/^([\+][0-9]+)?[0-9\-\ \/]+$/)){ feedback = false; feedback_message = "Invalid phone number format"; }
+
+        //Checking email format
+        if (!data.email.match(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/)){ feedback = false; feedback_message = "Invalid email format"; }
+
+        //Checking empty mandatory fields
+        mandatoryFields.forEach((field) => { if (data[field] === "") {feedback = false;  feedback_message = "Fill up the form before continuing"} });
+
+        if(!feedback)
+            alert(feedback_message);
+
+        return feedback;
+    }
 
     if(editMode)
         return (
@@ -58,8 +80,8 @@ export default function GeneralInformation({countNonPrintable}) {
                 />
             </div>
             <div className="flex gap-4">
-                <button className="!bg-sky-500 hover:!bg-sky-800 !text-white" onClick={()=>{setInitialData(data); setEditMode(false); countNonPrintable(-1);}}>Save</button>
-                <button onClick={()=>{setData(initialData); setEditMode(false); countNonPrintable(-1);}} >Cancel</button>
+                <button className="!bg-sky-500 hover:!bg-sky-800 !text-white" onClick={()=>{if (validate()) { setInitialData(data); setEditMode(false); countNonPrintable(-1);}}}>Save</button>
+                {initialData.name !== "" && <button onClick={()=>{setData(initialData); setEditMode(false); countNonPrintable(-1);}} >Cancel</button>}
             </div>
         </Container>
         );
