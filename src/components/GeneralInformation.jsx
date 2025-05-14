@@ -2,7 +2,7 @@ import { useState } from 'react';
 import useLocalStorageState from 'use-local-storage-state';
 import Input from './Input';
 import Container from './Container';
-import { PencilIcon } from "@heroicons/react/24/outline";
+import { PencilIcon, EnvelopeIcon, PhoneIcon } from "@heroicons/react/24/outline";
 
 const mandatoryFields = ["name","surname","email","phone"];
 
@@ -123,8 +123,18 @@ export default function GeneralInformation({countNonPrintable}) {
                 />
                 <strong className="font-extrabold text-4xl">{data.name} {data.surname}</strong>
             </p>
-            <p><em>Email:</em> {data.email}</p>
-            <p><em>Phone:</em> {data.phone}</p>
+            <p>
+                <span className="p-2">
+                    <em><EnvelopeIcon className="inline h-6 w-6 text-gray-500"/> Email: </em>
+                    {data.email}
+                </span>
+            </p>
+            <p>
+                <span className="p-2">
+                    <em><PhoneIcon className="inline h-6 w-6 text-gray-500"/> Phone:</em>
+                    {data.phone}
+                </span>
+            </p>
             {data.linkedin !== '' && <p><em>Linkedin:</em> {data.linkedin}</p>}
         </div>
         );    
