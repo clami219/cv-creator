@@ -3,7 +3,10 @@
 export default function Input({title, name=title, value, placeholder = "", type = "text", autocomplete = "", onChange = (() => {}), mandatory = false}) {
     return (
         <div className="flex flex-col md:flex-row md:items-center md:gap-4">
-            <label htmlFor={name} className="w-40 md:w-24 text-sm text-left font-medium text-gray-900 dark:text-white">
+            <label
+                htmlFor={name}
+                className="w-40 md:w-24 text-sm text-left font-medium text-gray-900 dark:text-white"
+            >
                 {title}{mandatory && "*"}
             </label>
             <div className="mt-2">

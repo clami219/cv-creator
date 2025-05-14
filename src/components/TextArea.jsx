@@ -12,7 +12,10 @@ export default function TextArea({ title, name=title, value, placeholder = "", t
 
     return (
         <div className="flex flex-col md:flex-row md:w-150 lg:w-211 text-left md:items-center md:gap-4">
-            <label htmlFor={name} className="w-40 md:w-24 text-sm text-left font-medium text-gray-900 dark:text-white">
+            <label
+                htmlFor={name}
+                className="w-40 md:w-24 text-sm text-left font-medium text-gray-900 dark:text-white"
+            >
                 {title}{mandatory && "*"}
             </label>
             <div className="flex flex-col mt-2 w-full max-w-full h-60 border border-gray-300 rounded-lg overflow-scroll has-[:focus-within]:outline-2 has-[:focus-within]:-outline-offset-2 has-[:focus-within]:outline-indigo-600">

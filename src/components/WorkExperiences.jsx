@@ -21,6 +21,7 @@ export default function WorkExperiences({countNonPrintable}) {
             exp.id === id ? updatedExp : exp
         );
         setExps(updatedExps);
+        setInsertVisible(false);
     }
 
     function addExperience()
@@ -64,11 +65,28 @@ export default function WorkExperiences({countNonPrintable}) {
 
     const hr = <><hr className="border-0 h-px bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 print:hidden" /><hr className="h-px border-gray-300 border-dotted hidden print:block " /></>
     return (
-        <Container title="Work experience"  change={{visible:!insertVisible, onClick:(()=>{if(!insertVisible){addExperience();  countNonPrintable(1);}})}}>
+        <Container
+            title="Work experience"
+            change={{
+                visible:!insertVisible,
+                onClick:(()=>{
+                    if(!insertVisible){
+                        addExperience();
+                        countNonPrintable(1);
+                    }})}}
+        >
             {exps.map((exp, index) => (
                 <React.Fragment key={exp.id}>
                     {(index > 0) && hr}
-                    <WorkExperience exp={exp} editing={exp.dateFrom === ""} expChange={changeExperience} expReplace={replaceExperience} expRemove={()=>(removeExperience(exp.id)) } position={{first: index === 0, last: index === exps.length - 1, moveUp, moveDown}} countNonPrintable={countNonPrintable} />
+                    <WorkExperience
+                        exp={exp}
+                        editing={exp.dateFrom === ""}
+                        expChange={changeExperience}
+                        expReplace={replaceExperience}
+                        expRemove={()=>(removeExperience(exp.id)) }
+                        expSave={()=>setInsertVisible(false)}
+                        position={{first: index === 0, last: index === exps.length - 1, moveUp, moveDown}}
+                        countNonPrintable={countNonPrintable} />
                 </React.Fragment>
             ))}
         </Container>
