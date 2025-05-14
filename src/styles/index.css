@@ -69,3 +69,14 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+@media (hover: none) {
+  .touch\:block {
+    display: block !important;
+  }
+
+  .touch\:hidden {
+    display: none !important;
+  }
+}
+

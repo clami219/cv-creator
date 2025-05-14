@@ -88,7 +88,7 @@ export default function GeneralInformation({countNonPrintable}) {
     else
     return (
         <div className="group flex flex-col text-right gap-0 mt-0 p-6 pt-2 pb-0">
-            <p><PencilIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-left hidden group-hover:block" onClick={() => {setEditMode(true); countNonPrintable(1);}} /><strong className="font-extrabold text-4xl">{data.name} {data.surname}</strong></p>
+            <p><PencilIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-left hidden group-hover:block touch:block print:!hidden" onClick={() => {setEditMode(true); countNonPrintable(1);}} /><strong className="font-extrabold text-4xl">{data.name} {data.surname}</strong></p>
             <p><em>Email:</em> {data.email}</p>
             <p><em>Phone:</em> {data.phone}</p>
             {data.linkedin !== '' && <p><em>Linkedin:</em> {data.linkedin}</p>}

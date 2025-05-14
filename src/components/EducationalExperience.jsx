@@ -17,6 +17,14 @@ export default function EducationalExperience({exp, countNonPrintable, expChange
     //Experience before changes, used to cancel edits
     const [initialExp,setInitialExp] = useState(exp);
 
+    const viewButtons = (touchVisible = true) => (
+        <>
+            {!position.last && <ChevronDoubleDownIcon className={"h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" + ( touchVisible ? " touch:block" : " touch:hidden" )} onClick={() => position.moveDown(exp.id)}/>}
+            {!position.first && <ChevronDoubleUpIcon className={"h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" + ( touchVisible ? " touch:block" : " touch:hidden" )} onClick={() => position.moveUp(exp.id)}/>}
+            <PencilIcon className={"h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" + ( touchVisible ? " touch:block" : " touch:hidden" )} onClick={()=>{setEditMode(true); countNonPrintable(1);}}/>
+        </>
+    );
+
     if(editMode) {
         return (
             <div className="flex flex-col text-left gap-4 mt-0 p-6 pt-2">
@@ -37,11 +45,12 @@ export default function EducationalExperience({exp, countNonPrintable, expChange
     {
         return (
             <div className="group/Ed flex flex-col text-left gap-2 mt-0 p-6 pt-2">
+                <div className="flex flex-row bg-gray-100 p-2 hidden touch:block print:!hidden">
+                    {viewButtons(true)}
+                </div>
                 <p>
                     <strong className="font-extrabold text-xl">{exp.titleOfStudy}</strong>
-                    {!position.last && <ChevronDoubleDownIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" onClick={() => position.moveDown(exp.id)}/>}
-                    {!position.first && <ChevronDoubleUpIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" onClick={() => position.moveUp(exp.id)}/>}
-                    <PencilIcon className="h-6 w-6 text-gray-500 hover:text-indigo-500 cursor-pointer float-right hidden group-hover/Ed:block" onClick={()=>{setEditMode(true); countNonPrintable(1);}}/>
+                    {viewButtons(false)}
                 </p>
                 <p>{exp.schoolName} - {dateFromFormatted.toString()} to {dateUntilFormatted.toString()}</p>
                 { exp.grade !== "" && <p><strong>Grade: </strong> {exp.grade}</p> }
